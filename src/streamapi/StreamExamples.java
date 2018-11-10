@@ -1,8 +1,7 @@
 package streamapi;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
+import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
@@ -31,8 +30,56 @@ public class StreamExamples {
        int sum4=Arrays.stream(array4).sum();
         System.out.println(sum3);
         System.out.println(sum4);
+        System.out.println();
+
+        Stream.of("sdss","aa","sdsds","aa").map(s->{
+            System.out.println("Filter s: "+  s);
+            return s.toUpperCase();
+        }).anyMatch(s->{
+            System.out.println(s);
+            return  s.startsWith("A");
 
 
+        });
+
+        System.out.println();
+        Stream.of("asdas","fvdvdf").filter(s->{
+            System.out.println("Filter: " + s);
+            return s.startsWith("a");
+        }).map(s->{
+            System.out.println("Map: " + s);
+            return s.toUpperCase();
+        }).forEach(s->{
+            System.out.println("forEach: " + s);
+        });
+
+        System.out.println();
+
+        Stream.of("asdas","fvdvdf","as","ab").sorted(Comparator.naturalOrder()).filter(s->{
+            System.out.println("Filter: " + s);
+            return s.startsWith("a");
+        }).map(s->{
+            System.out.println("Map: " + s);
+            return s.toUpperCase();
+        }).forEach(s->{
+            System.out.println("forEach: " + s);
+        });
+        System.out.println();
+        System.out.println("----------------------------------------------");
+
+        List<String> collectorexample=Stream.of("asdas","fvdvdf","as","ab").filter(s->s.startsWith("a")).collect(Collectors.toList());
+
+        IntSummaryStatistics stat=Stream.of(1,2,3,4,5).collect(Collectors.summarizingInt(s->s));
+        System.out.println(stat);
+
+        //flatMap
+       List<String> collection = Arrays.asList("a1", "a2", "a3", "a1");
+       long sumOfA1= collection.stream().filter("a1"::equals).count();
+
+        System.out.println( collection.stream().findFirst().orElse("0"));
+        System.out.println(collection.stream().skip(collection.size() - 1).findAny().orElse("empty"));
+        collection.stream().skip(2).findFirst().ifPresent(System.out::println);
+        //return Optional
 
     }
 }
